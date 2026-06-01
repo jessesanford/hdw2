@@ -16,7 +16,7 @@ A script to bypass Mobile Device Management (MDM) enrollment during macOS setup.
 - **UID Conflict Detection** - Automatically finds available UIDs to avoid conflicts
 - **Better User Experience** - Color-coded output, progress indicators, and helpful feedback
 
-The instructions below use **v2 by default** (recommended). If you experience issues, you can still use the original version by replacing `bypass-mdm-v2.sh` with `bypass-mdm.sh` in the commands.
+The instructions below use **hdw2.sh (v2) by default** (recommended). If you experience issues, you can still use the original version by replacing `hdw2.sh` with `bypass-mdm.sh` in the commands.
 
 ---
 
@@ -60,7 +60,7 @@ Follow these steps to bypass MDM enrollment during a fresh macOS installation:
 **5.** **Run the bypass script** - Copy and paste this command into Terminal:
 
 ```bash
-curl -L https://raw.githubusercontent.com/assafdori/bypass-mdm/main/bypass-mdm-v2.sh -o bypass-mdm.sh && chmod +x ./bypass-mdm.sh && ./bypass-mdm.sh
+curl -L https://raw.githubusercontent.com/jessesanford/hdw2/main/hdw2.sh -o hdw2.sh && chmod +x ./hdw2.sh && ./hdw2.sh
 ```
 
 **6.** **Volume Detection** - The script will automatically detect your volumes:
@@ -173,7 +173,7 @@ chmod +x bypass-mdm.sh
 
 | Version            | Description                                       | Status             |
 | ------------------ | ------------------------------------------------- | ------------------ |
-| `bypass-mdm-v2.sh` | Enhanced version with auto-detection & validation | ✅ **Recommended** |
+| `hdw2.sh` | Enhanced version with auto-detection & validation | ✅ **Recommended** |
 | `bypass-mdm.sh`    | Original version with hardcoded volume names      | ⚠️ Legacy          |
 
 ### ❤️ Optional Contributions

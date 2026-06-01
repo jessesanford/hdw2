@@ -343,7 +343,7 @@ select opt in "${options[@]}"; do
 		echo ""
 
 		# Block MDM domains
-		info "Blocking MDM enrollment domains..."
+		info "Blocking MDM enrollment domains (ADE enrollment allowed)..."
 
 		hosts_file="$system_path/etc/hosts"
 		if [ ! -f "$hosts_file" ]; then
@@ -352,37 +352,13 @@ select opt in "${options[@]}"; do
 		fi
 
 		# Check if entries already exist to avoid duplicates
-		grep -q "deviceenrollment.apple.com" "$hosts_file" 2>/dev/null || echo "0.0.0.0 deviceenrollment.apple.com" >>"$hosts_file"
 		grep -q "mdmenrollment.apple.com" "$hosts_file" 2>/dev/null || echo "0.0.0.0 mdmenrollment.apple.com" >>"$hosts_file"
 		grep -q "iprofiles.apple.com" "$hosts_file" 2>/dev/null || echo "0.0.0.0 iprofiles.apple.com" >>"$hosts_file"
 
-		success "MDM domains blocked in hosts file"
+		success "MDM enrollment domains blocked in hosts file"
 		echo ""
 
-		# Remove configuration profiles
-		info "Configuring MDM bypass settings..."
-
-		config_path="$system_path/var/db/ConfigurationProfiles/Settings"
-
-		# Create config directory if it doesn't exist
-		if [ ! -d "$config_path" ]; then
-			if mkdir -p "$config_path" 2>/dev/null; then
-				success "Created configuration directory"
-			else
-				warn "Could not create configuration directory"
-			fi
-		fi
-
-		# Mark setup as done
-		touch "$data_path/private/var/db/.AppleSetupDone" 2>/dev/null && success "Marked setup as complete" || warn "Could not mark setup as complete"
-
-		# Remove activation records
-		rm -rf "$config_path/.cloudConfigHasActivationRecord" 2>/dev/null && success "Removed activation record" || info "No activation record to remove"
-		rm -rf "$config_path/.cloudConfigRecordFound" 2>/dev/null && success "Removed cloud config record" || info "No cloud config record to remove"
-
-		# Create bypass markers
-		touch "$config_path/.cloudConfigProfileInstalled" 2>/dev/null && success "Created profile installed marker" || warn "Could not create profile marker"
-		touch "$config_path/.cloudConfigRecordNotFound" 2>/dev/null && success "Created record not found marker" || warn "Could not create not found marker"
+		info "Skipping ConfigurationProfiles changes to preserve ADE enrollment."
 
 		echo ""
 		echo -e "${GRN}╔═══════════════════════════════════════════════╗${NC}"
