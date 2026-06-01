@@ -261,7 +261,7 @@ data_volume=$(echo "$volume_info" | cut -d'|' -f2)
 # Display header
 echo ""
 echo -e "${CYAN}╔═══════════════════════════════════════════════╗${NC}"
-echo -e "${CYAN}║  Bypass MDM By Assaf Dori (assafdori.com)   ║${NC}"
+echo -e "${CYAN}║  Bypass MDM By Assaf Dori (assafdori.com)     ║${NC}"
 echo -e "${CYAN}╚═══════════════════════════════════════════════╝${NC}"
 echo ""
 success "System Volume: $system_volume"
@@ -466,7 +466,7 @@ select opt in "${options[@]}"; do
 
 		echo ""
 		echo -e "${GRN}╔═══════════════════════════════════════════════╗${NC}"
-		echo -e "${GRN}║       MDM Bypass Completed Successfully!     ║${NC}"
+		echo -e "${GRN}║       MDM Bypass Completed Successfully!      ║${NC}"
 		echo -e "${GRN}╚═══════════════════════════════════════════════╝${NC}"
 		echo ""
 		echo -e "${CYAN}Next steps:${NC}"
