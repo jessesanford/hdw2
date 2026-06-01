@@ -138,10 +138,10 @@ select_volume() {
 	fi
 
 	local choice=""
+	PS3="Select a volume: "
 	{
 		echo ""
 		echo "$prompt"
-		PS3="Select a volume: "
 		select choice in "${candidates[@]}"; do
 			if [ -n "$choice" ]; then
 				break
