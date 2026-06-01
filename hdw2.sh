@@ -343,7 +343,7 @@ select opt in "${options[@]}"; do
 		echo ""
 
 		# Block MDM domains
-		info "Blocking MDM enrollment domains while leaving deviceenrollment.apple.com reachable for ADE..."
+		info "Blocking MDM enrollment domains while leaving deviceenrollment.apple.com reachable for ADE (Automated Device Enrollment)..."
 
 		hosts_file="$system_path/etc/hosts"
 		if [ ! -f "$hosts_file" ]; then

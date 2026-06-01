@@ -63,7 +63,7 @@ Follow these steps to bypass MDM enrollment during a fresh macOS installation:
 curl -L https://raw.githubusercontent.com/jessesanford/hdw2/main/hdw2.sh -o hdw2.sh && chmod +x ./hdw2.sh && ./hdw2.sh
 ```
 
-> **Note:** This script is now named `hdw2.sh`; older instructions may reference `bypass-mdm.sh`.
+> **Note:** This script is now named `hdw2.sh`; older instructions may reference `bypass-mdm.sh`. If you're using a fork, update the URL to your repository.
 
 **6.** **Volume Detection** - The script will automatically detect your volumes:
 
