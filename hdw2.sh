@@ -343,7 +343,7 @@ select opt in "${options[@]}"; do
 		echo ""
 
 		# Block MDM domains
-		info "Blocking MDM enrollment domains (ADE enrollment allowed)..."
+		info "Blocking MDM enrollment domains while leaving deviceenrollment.apple.com reachable for ADE..."
 
 		hosts_file="$system_path/etc/hosts"
 		if [ ! -f "$hosts_file" ]; then
@@ -355,7 +355,7 @@ select opt in "${options[@]}"; do
 		grep -q "mdmenrollment.apple.com" "$hosts_file" 2>/dev/null || echo "0.0.0.0 mdmenrollment.apple.com" >>"$hosts_file"
 		grep -q "iprofiles.apple.com" "$hosts_file" 2>/dev/null || echo "0.0.0.0 iprofiles.apple.com" >>"$hosts_file"
 
-		success "MDM enrollment domains blocked in hosts file"
+		success "MDM enrollment domains blocked in hosts file (ADE still allowed)"
 		echo ""
 
 		info "Skipping ConfigurationProfiles changes to preserve ADE enrollment."
