@@ -8,7 +8,6 @@ YEL='\033[1;33m'
 PUR='\033[1;35m'
 CYAN='\033[1;36m'
 NC='\033[0m'
-VOLUME_SELECT_PROMPT="Select a volume: "
 
 # Error handling function
 error_exit() {
@@ -128,7 +127,7 @@ select_volume() {
 					break
 				fi
 			done
-			if [ "$valid" = true ]; then
+			if $valid; then
 				candidates+=("$(basename "$vol")")
 			fi
 		fi
@@ -139,7 +138,7 @@ select_volume() {
 	fi
 
 	local choice=""
-	PS3="$VOLUME_SELECT_PROMPT"
+	PS3="Select a volume: "
 	{
 		echo ""
 		echo "$prompt"
