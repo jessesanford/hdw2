@@ -153,6 +153,31 @@ select_volume() {
 	echo "$choice"
 }
 
+# Helpers for system/data volume selection
+select_system_volume() {
+	select_volume "Select system volume (must include /System):" "System"
+}
+
+select_data_volume() {
+	select_volume "Select data volume (must include /Users and /private/var/db/dslocal/nodes/Default):" "Users" "private/var/db/dslocal/nodes/Default"
+}
+
+choose_system_volume() {
+	local selection
+	if ! selection=$(select_system_volume); then
+		error_exit "No eligible system volumes found. Ensure you're running in Recovery mode with a macOS installation present."
+	fi
+	echo "$selection"
+}
+
+choose_data_volume() {
+	local selection
+	if ! selection=$(select_data_volume); then
+		error_exit "No eligible data volumes found. Ensure you're running in Recovery mode with a macOS installation present."
+	fi
+	echo "$selection"
+}
+
 # Function to detect system volumes with multiple fallback strategies
 detect_volumes() {
 	local system_vol=""
@@ -207,16 +232,12 @@ detect_volumes() {
 	# Validate findings
 	if [ -z "$system_vol" ]; then
 		warn "Could not automatically detect system volume." >&2
-		if ! system_vol=$(select_volume "Select system volume (must include /System):" "System"); then
-			error_exit "No eligible system volumes found. Ensure you're running in Recovery mode with a macOS installation present."
-		fi
+		system_vol=$(choose_system_volume)
 	fi
 
 	if [ -z "$data_vol" ]; then
 		warn "Could not automatically detect data volume." >&2
-		if ! data_vol=$(select_volume "Select data volume (must include /Users and /private/var/db/dslocal/nodes/Default):" "Users" "private/var/db/dslocal/nodes/Default"); then
-			error_exit "No eligible data volumes found. Ensure you're running in Recovery mode with a macOS installation present."
-		fi
+		data_vol=$(choose_data_volume)
 	fi
 
 	echo "" >&2
@@ -225,12 +246,8 @@ detect_volumes() {
 	echo -n "Use these volumes? (y/n): " >&2
 	read -r use_detected
 	if [[ "$use_detected" =~ ^[Nn]$ ]]; then
-		if ! system_vol=$(select_volume "Select system volume (must include /System):" "System"); then
-			error_exit "No eligible system volumes found. Ensure you're running in Recovery mode with a macOS installation present."
-		fi
-		if ! data_vol=$(select_volume "Select data volume (must include /Users and /private/var/db/dslocal/nodes/Default):" "Users" "private/var/db/dslocal/nodes/Default"); then
-			error_exit "No eligible data volumes found. Ensure you're running in Recovery mode with a macOS installation present."
-		fi
+		system_vol=$(choose_system_volume)
+		data_vol=$(choose_data_volume)
 	fi
 
 	echo "$system_vol|$data_vol"
