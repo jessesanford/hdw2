@@ -8,6 +8,7 @@ YEL='\033[1;33m'
 PUR='\033[1;35m'
 CYAN='\033[1;36m'
 NC='\033[0m'
+VOLUME_PS3="Select a volume: "
 
 # Error handling function
 error_exit() {
@@ -138,7 +139,7 @@ select_volume() {
 	fi
 
 	local choice=""
-	PS3="Select a volume: "
+	PS3="$VOLUME_PS3"
 	{
 		echo ""
 		echo "$prompt"
@@ -146,7 +147,7 @@ select_volume() {
 			if [ -n "$choice" ]; then
 				break
 			fi
-			echo "Invalid selection. Try again."
+			echo "Invalid selection. Please enter a number from the list."
 		done
 	} >&2
 
