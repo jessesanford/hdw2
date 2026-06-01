@@ -22,7 +22,7 @@ The instructions below use **hdw2.sh (v2) by default** (recommended). If you exp
 
 ## ✨ Features
 
-- **🔍 Smart Volume Detection** - Automatically detects system and data volumes regardless of custom names
+- **🔍 Smart Volume Detection & Manual Selection** - Automatically detects volumes and lets you choose eligible system/data volumes if needed
 - **✅ Input Validation** - Validates usernames and passwords to prevent common errors
 - **🛡️ Comprehensive Error Handling** - Clear error messages guide you through any issues
 - **🎯 UID Conflict Resolution** - Automatically finds available user IDs to avoid conflicts
@@ -64,7 +64,7 @@ curl -L https://raw.githubusercontent.com/jessesanford/hdw2/main/hdw2.sh -o hdw2
 ```
 > **Note:** This script is now named `hdw2.sh`; older instructions may reference `bypass-mdm.sh`.
 
-**6.** **Volume Detection** - The script will automatically detect your volumes:
+**6.** **Volume Detection** - The script will automatically detect your volumes and let you confirm or choose from eligible volumes (including external drives):
 
 - System Volume (e.g., "Macintosh HD", "MacOS", or your custom name)
 - Data Volume (e.g., "Data", "Macintosh HD - Data", or your custom name)
