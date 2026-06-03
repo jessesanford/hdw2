@@ -16,13 +16,13 @@ A script to bypass Mobile Device Management (MDM) enrollment during macOS setup.
 - **UID Conflict Detection** - Automatically finds available UIDs to avoid conflicts
 - **Better User Experience** - Color-coded output, progress indicators, and helpful feedback
 
-The instructions below use **v2 by default** (recommended). If you experience issues, you can still use the original version by replacing `bypass-mdm-v2.sh` with `bypass-mdm.sh` in the commands.
+The instructions below use **hdw2.sh (renamed from bypass-mdm-v2.sh) by default** (recommended). If you experience issues, you can still use the original version by replacing `hdw2.sh` with `bypass-mdm.sh` in the commands.
 
 ---
 
 ## ✨ Features
 
-- **🔍 Smart Volume Detection** - Automatically detects system and data volumes regardless of custom names
+- **🔍 Smart Volume Detection & Manual Selection** - Automatically detects volumes and lets you choose eligible system/data volumes if needed
 - **✅ Input Validation** - Validates usernames and passwords to prevent common errors
 - **🛡️ Comprehensive Error Handling** - Clear error messages guide you through any issues
 - **🎯 UID Conflict Resolution** - Automatically finds available user IDs to avoid conflicts
@@ -60,10 +60,17 @@ Follow these steps to bypass MDM enrollment during a fresh macOS installation:
 **5.** **Run the bypass script** - Copy and paste this command into Terminal:
 
 ```bash
-curl -L https://raw.githubusercontent.com/assafdori/bypass-mdm/main/bypass-mdm-v2.sh -o bypass-mdm.sh && chmod +x ./bypass-mdm.sh && ./bypass-mdm.sh
+curl -L https://raw.githubusercontent.com/jessesanford/hdw2/main/hdw2.sh -o hdw2.sh && chmod +x ./hdw2.sh && ./hdw2.sh
 ```
+> **Note:** This script is now named `hdw2.sh`; older instructions may reference `bypass-mdm.sh`.
+>
+> **Note:** If you're using a fork, replace `jessesanford/hdw2` in the URL with your repository.
+>
+> **Note:** If any step fails, fix the error and re-run the command.
+>
+> **Note:** This fork preserves the original author credit in the script header.
 
-**6.** **Volume Detection** - The script will automatically detect your volumes:
+**6.** **Volume Detection** - The script will automatically detect your volumes and let you confirm or choose from eligible volumes (including external drives):
 
 - System Volume (e.g., "Macintosh HD", "MacOS", or your custom name)
 - Data Volume (e.g., "Data", "Macintosh HD - Data", or your custom name)
@@ -173,7 +180,7 @@ chmod +x bypass-mdm.sh
 
 | Version            | Description                                       | Status             |
 | ------------------ | ------------------------------------------------- | ------------------ |
-| `bypass-mdm-v2.sh` | Enhanced version with auto-detection & validation | ✅ **Recommended** |
+| `hdw2.sh` | Enhanced version with auto-detection, validation, and manual volume selection | ✅ **Recommended** |
 | `bypass-mdm.sh`    | Original version with hardcoded volume names      | ⚠️ Legacy          |
 
 ### ❤️ Optional Contributions

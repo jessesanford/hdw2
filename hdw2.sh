@@ -110,6 +110,74 @@ find_available_uid() {
 	return 1
 }
 
+# Prompt to select a volume that meets required paths
+select_volume() {
+	local prompt="$1"
+	shift
+	local -a candidates=()
+	local vol
+
+	for vol in /Volumes/*; do
+		if [ -d "$vol" ]; then
+			local valid=true
+			local requirement
+			for requirement in "$@"; do
+				if [ ! -d "$vol/$requirement" ] && [ ! -f "$vol/$requirement" ]; then
+					valid=false
+					break
+				fi
+			done
+			if $valid; then
+				candidates+=("$(basename "$vol")")
+			fi
+		fi
+	done
+
+	if [ ${#candidates[@]} -eq 0 ]; then
+		return 1
+	fi
+
+	local choice=""
+	PS3="Select a volume: "
+	{
+		echo ""
+		echo "$prompt"
+		select choice in "${candidates[@]}"; do
+			if [ -n "$choice" ]; then
+				break
+			fi
+			echo "Invalid selection. Please enter a number from the list."
+		done
+	} >&2
+
+	echo "$choice"
+}
+
+# Helpers for system/data volume selection
+select_system_volume() {
+	select_volume "Select a system volume (requires /System directory):" "System"
+}
+
+select_data_volume() {
+	select_volume "Select a data volume (requires /Users and Directory Services):" "Users" "private/var/db/dslocal/nodes/Default"
+}
+
+choose_system_volume() {
+	local selection
+	if ! selection=$(select_system_volume); then
+		error_exit "No eligible system volumes found. Ensure you're running in Recovery mode with a macOS installation present."
+	fi
+	echo "$selection"
+}
+
+choose_data_volume() {
+	local selection
+	if ! selection=$(select_data_volume); then
+		error_exit "No eligible data volumes found. Ensure you're running in Recovery mode with a macOS installation present."
+	fi
+	echo "$selection"
+}
+
 # Function to detect system volumes with multiple fallback strategies
 detect_volumes() {
 	local system_vol=""
@@ -163,11 +231,23 @@ detect_volumes() {
 
 	# Validate findings
 	if [ -z "$system_vol" ]; then
-		error_exit "Could not detect system volume. Please ensure you're running this in Recovery mode with a macOS installation present."
+		warn "Could not automatically detect system volume." >&2
+		system_vol=$(choose_system_volume)
 	fi
 
 	if [ -z "$data_vol" ]; then
-		error_exit "Could not detect data volume. Please ensure you're running this in Recovery mode with a macOS installation present."
+		warn "Could not automatically detect data volume." >&2
+		data_vol=$(choose_data_volume)
+	fi
+
+	echo "" >&2
+	info "Detected system volume: $system_vol" >&2
+	info "Detected data volume: $data_vol" >&2
+	echo -n "Use these volumes? (y/n): " >&2
+	read -r use_detected
+	if [[ "$use_detected" =~ ^[Nn]$ ]]; then
+		system_vol=$(choose_system_volume)
+		data_vol=$(choose_data_volume)
 	fi
 
 	echo "$system_vol|$data_vol"
@@ -181,7 +261,7 @@ data_volume=$(echo "$volume_info" | cut -d'|' -f2)
 # Display header
 echo ""
 echo -e "${CYAN}╔═══════════════════════════════════════════════╗${NC}"
-echo -e "${CYAN}║  Bypass MDM By Assaf Dori (assafdori.com)   ║${NC}"
+echo -e "${CYAN}║  Bypass MDM By Assaf Dori (assafdori.com)     ║${NC}"
 echo -e "${CYAN}╚═══════════════════════════════════════════════╝${NC}"
 echo ""
 success "System Volume: $system_volume"
@@ -386,7 +466,7 @@ select opt in "${options[@]}"; do
 
 		echo ""
 		echo -e "${GRN}╔═══════════════════════════════════════════════╗${NC}"
-		echo -e "${GRN}║       MDM Bypass Completed Successfully!     ║${NC}"
+		echo -e "${GRN}║       MDM Bypass Completed Successfully!      ║${NC}"
 		echo -e "${GRN}╚═══════════════════════════════════════════════╝${NC}"
 		echo ""
 		echo -e "${CYAN}Next steps:${NC}"
